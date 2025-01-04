@@ -2,14 +2,32 @@
 import { And, Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { BASE_URL, BEARER_TOKEN } from '../../support/constants';
 
-
 var apiRequestBody: any;
 var apiEndpoint: string ;
 var apiResponse: Cypress.Response<any>;
 
-
 Given ('the API endpoint for create Gist', () => {
     apiEndpoint = BASE_URL + '/gists';
+});
+
+When('I send POST request with request payload as {string}', requestBodyFilePath => {
+    cy.log(requestBodyFilePath);
+    cy.readFile('cypress/' + requestBodyFilePath).then((apiRequestBody) => {
+        cy.log(JSON.stringify(apiRequestBody));     
+        // Send the POST request only after reading the file
+        cy.request({
+            method: 'POST',
+            url: apiEndpoint,
+            body: apiRequestBody,
+            failOnStatusCode: false,
+            headers: {
+                'Authorization': 'Bearer ' + BEARER_TOKEN
+            }
+        }).then((response) => {
+            apiResponse = response;
+            cy.log('API Response is:', JSON.stringify(apiResponse.body));
+        });
+    });
 });
 
 When ('I send POST request with valid request payload, with token as {string}', token => {
@@ -24,32 +42,17 @@ When ('I send POST request with valid request payload, with token as {string}', 
         }
     }).then( (response) => {
         apiResponse = response;
-        apiRequestBody = null;
     })
-});
-
-When('I send POST request with request payload as {string}', (requestBodyFilePath) => {
-    cy.readFile('cypress/' + requestBodyFilePath).then((apiRequestBody) => {
-        cy.log(JSON.stringify(apiRequestBody));
-        
-        // Send the POST request only after reading the file
-        cy.request({
-            method: 'POST',
-            url: apiEndpoint,
-            body: apiRequestBody,
-            failOnStatusCode: false,
-            headers: {
-                'Authorization': 'Bearer ' + BEARER_TOKEN
-            }
-        }).then((response) => {
-            apiResponse = response;
-            cy.log('API Response:', JSON.stringify(apiResponse.body));
-        });
-    });
 });
 
 Then ('the response status code should be {int}', statusCode => {
     expect(apiResponse.status).to.eq(statusCode);
+});
+
+And ('the response should have public as {string}', gistType => {
+    cy.fixture('schema.json').then((schema) => {
+    expect(apiResponse.body).to.be.jsonSchema(schema);
+    });
 });
 
 And ('the response should have public as {string}', gistType => {

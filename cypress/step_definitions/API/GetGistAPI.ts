@@ -12,20 +12,21 @@ const fs = require('fs');
 
 Given ('I create a Gist to get gist id from the response', () => {
     createApiEndpoint = BASE_URL + '/gists';
-    apiRequestBody = require('../../fixtures/api_data/create_gist/positive_payloads/CreatePublicGist.json');
-    cy.request({
-        method:'POST',
-        url:createApiEndpoint,
-        body:apiRequestBody,
-        failOnStatusCode: false,
-        headers: {
-            'Authorization' : 'Bearer ' + BEARER_TOKEN
-        }
-    }).then( (response) => {
-        apiResponse = response;
-        gistID = response.body.id;
-        cy.log('gist ID is' + gistID);
-    })
+    cy.readFile('cypress/' + 'fixtures/api_data/create_gist/positive_payloads/CreatePublicGist.json').then((apiRequestBody) => {
+        cy.request({
+            method:'POST',
+            url:createApiEndpoint,
+            body:apiRequestBody,
+            failOnStatusCode: false,
+            headers: {
+                'Authorization' : 'Bearer ' + BEARER_TOKEN
+            }
+        }).then( (response) => {
+            apiResponse = response;
+            gistID = response.body.id;
+            cy.log('gist ID is' + gistID);
+        });
+    }); 
 });
 
 Given ('the API endpoint for get Gist', () => {
@@ -42,7 +43,7 @@ When ('I send GET request with valid gistId in the endpoint', () => {
         }
     }).then( (response) => {
         apiResponse = response;      
-    })
+    });
 });
 
 Then ('the response status should be 200', () => {
