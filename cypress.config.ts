@@ -1,0 +1,27 @@
+import { defineConfig } from 'cypress';
+
+export const config: Cypress.ConfigOptions = {
+  viewportWidth: 1920,
+  viewportHeight: 1080,
+  pageLoadTimeout: 80000,
+  chromeWebSecurity: false,
+  reporter: 'mochawesome',
+  reporterOptions: {
+    charts: true,
+    overwrite: false,
+    html: false,
+    json: true,
+    reportDir: 'cypress/reports',
+  },
+  screenshotsFolder: 'cypress/screenshots',
+  video: false,
+  e2e: {
+    setupNodeEvents(on, conf) {
+      // eslint-disable-next-line global-require, import/extensions, @typescript-eslint/no-var-requires
+      return require('./cypress/plugins/index.js')(on, conf);
+    },
+    specPattern: 'cypress/features/**/*.{feature,features}',
+  },
+};
+
+export default defineConfig(config);

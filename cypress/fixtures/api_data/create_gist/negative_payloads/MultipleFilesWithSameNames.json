@@ -1,0 +1,17 @@
+{
+    "description": "Gist_API_1",
+    "public": false,
+    "files":
+    {
+        "DummyFileName":
+        {
+            "filename":"GA1_File_1",
+            "content": "Adding Contents for G3_File_1"
+        },
+        "DummyFileName2":
+        {
+            "filename":"GA1_File_1",
+            "content": "Adding Contents for G3_File_1"
+        }
+    }
+}
