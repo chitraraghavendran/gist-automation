@@ -5,6 +5,7 @@ Scenario Outline: Positive usecase - creating a public Gist via POST request
   When I send POST request with request payload as "<requestBodyFilePath>"
   Then the response status code should be 201
   And the response should have public as "<publicViewType>"
+  And the response should match the defined schema "api_data/create_gist/ResponseSchema.json"
   Examples:
    |                            requestBodyFilePath                                   | publicViewType |
    |    fixtures/api_data/create_gist/positive_payloads/CreatePublicGist.json         | true           |

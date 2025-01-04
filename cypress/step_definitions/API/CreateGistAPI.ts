@@ -1,10 +1,16 @@
 /* eslint-disable */
 import { And, Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { BASE_URL, BEARER_TOKEN } from '../../support/constants';
+import Ajv from "ajv";
+import addFormats from "ajv-formats";
 
+
+const ajv = new Ajv();
+addFormats(ajv); // Adding standard formats like "uri", "email", etc.
 var apiRequestBody: any;
 var apiEndpoint: string ;
 var apiResponse: Cypress.Response<any>;
+
 
 Given ('the API endpoint for create Gist', () => {
     apiEndpoint = BASE_URL + '/gists';
@@ -49,9 +55,16 @@ Then ('the response status code should be {int}', statusCode => {
     expect(apiResponse.status).to.eq(statusCode);
 });
 
-And ('the response should have public as {string}', gistType => {
-    cy.fixture('schema.json').then((schema) => {
-    expect(apiResponse.body).to.be.jsonSchema(schema);
+And ('the response should match the defined schema {string}', schemFilePath => {
+    cy.fixture(schemFilePath).then((schema) => {
+    // Compile the schema validation function
+    const validate = ajv.compile(schema);
+
+    // Perform the validation
+    const valid = validate(apiResponse.body);
+
+    // Assert the schema is valid
+    expect(valid, JSON.stringify(validate.errors)).to.be.true;
     });
 });
 

@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/cypress/reports
+/cypress/screenshots
 /.pnp
 .pnp.js
 
