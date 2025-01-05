@@ -1,53 +1,25 @@
 /* eslint-disable */
-import { Given, When, Then} from 'cypress-cucumber-preprocessor/steps';
+import { Given, When } from 'cypress-cucumber-preprocessor/steps';
 import { BASE_URL, BEARER_TOKEN } from '../../support/constants';
 
 let getGistsAPIEndpoint: string;
-let getGistsAPIResponse: any;
 let deleteGistsAPIEndpoint: string;
-let deleteGistsAPIResponse: any;
-let gistID: any;
+let gistsID: string;
 
 Given ('the API endpoint for get all public Gists', () => {
-    getGistsAPIEndpoint = BASE_URL + '/gists'
+    getGistsAPIEndpoint = BASE_URL + '/gists/public'
 });
 
 When ('I send GET request without any token', () => {
-    cy.request({
-        method:'get',
-        url:getGistsAPIEndpoint,
-        failOnStatusCode:false
-    }).then((response) => {
-        getGistsAPIResponse = response;
-        cy.log(JSON.stringify(getGistsAPIResponse));
-        gistID = getGistsAPIResponse.body[0].id;
-        cy.log('gistID is ' + gistID);
-    });
-});
-
-Then ('the response status should be 200', () => {
-    expect(getGistsAPIResponse.status).eq(200);
-});
-
-Given ('the API endpoint for deleting a gist', () => {
-    deleteGistsAPIEndpoint = BASE_URL + '/gists/' + gistID
+    cy.apiRequestWithoutToken('GET', getGistsAPIEndpoint);
+    cy.get('@apiResponse').then((response) => {
+        const res = response as unknown as Cypress.Response<any>;
+        gistsID = res.body[0].id;
+        deleteGistsAPIEndpoint = BASE_URL + '/gists/' + gistsID;
+        cy.log('gistID is ' + gistsID);
+    }); 
 });
 
 When ('I send DELETE request with current users AuthToken', () => {
-    cy.request({
-        method:'DELETE',
-        url:deleteGistsAPIEndpoint,
-        failOnStatusCode: false,
-        headers: {
-            'Authorization' : 'Bearer ' + BEARER_TOKEN
-        }
-    }).then((response) => {
-        deleteGistsAPIResponse = response;      
-    });
+    cy.apiRequest('DELETE', deleteGistsAPIEndpoint, BEARER_TOKEN);
 });
-
-Then ('the response status should be 403 forbidden', () => {
-    expect(deleteGistsAPIResponse.status).eq(403);
-});
-
-

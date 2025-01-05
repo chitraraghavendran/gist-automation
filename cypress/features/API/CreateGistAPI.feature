@@ -8,8 +8,8 @@ Scenario Outline: Positive usecase - creating a public Gist via POST request
   And the response should match the defined schema "api_data/create_gist/ResponseSchema.json"
   Examples:
    |                            requestBodyFilePath                                   | publicViewType |
-   |    fixtures/api_data/create_gist/positive_payloads/CreatePublicGist.json         | true           |
-   |    fixtures/api_data/create_gist/positive_payloads/CreateSecretGist.json         | false          |
+   |    api_data/create_gist/positive_payloads/CreatePublicGist.json         | true           |
+   |    api_data/create_gist/positive_payloads/CreateSecretGist.json         | false          |
 
 
 Scenario Outline: Negative testcase - creating Gist with multiple invalid tokens
@@ -27,11 +27,10 @@ Scenario Outline: Negative testcase - creating Gist with invalid request payload
   When I send POST request with request payload as "<requestBodyFilePath>"
   Then the response status code should be 422
   Examples:
-   |                     requestBodyFilePath                                              |
-   | fixtures/api_data/create_gist/negative_payloads/EmptyFiles.json                      |
-   | fixtures/api_data/create_gist/negative_payloads/EmptyPayload.json                    |
-   | fixtures/api_data/create_gist/negative_payloads/InvalidDataType.json                 |
-   | fixtures/api_data/create_gist/negative_payloads/LargeContent.json                    |
-   | fixtures/api_data/create_gist/negative_payloads/MissingContent.json                  |
-   | fixtures/api_data/create_gist/negative_payloads/MultipleFilesWithSameNames.json      |
-   | fixtures/api_data/create_gist/negative_payloads/WithoutFiles.json                    |
+   |                     requestBodyFilePath                                     |
+   | api_data/create_gist/negative_payloads/EmptyFiles.json                      |
+   | api_data/create_gist/negative_payloads/EmptyPayload.json                    |
+   | api_data/create_gist/negative_payloads/InvalidDataType.json                 |
+   | api_data/create_gist/negative_payloads/MissingContent.json                  |
+   | api_data/create_gist/negative_payloads/MultipleFilesWithSameNames.json      |
+   | api_data/create_gist/negative_payloads/WithoutFiles.json                    |

@@ -1,53 +1,41 @@
 /* eslint-disable */
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { Given, When } from 'cypress-cucumber-preprocessor/steps';
 import { BASE_URL, BEARER_TOKEN } from '../../support/constants';
-import { expect } from 'chai';
 
-var apiRequestBody: any;
-var createApiEndpoint: string;
-var getApiEndpoint: string;
-var apiResponse: Cypress.Response<any>;
-var gistID: string;
-const fs = require('fs');
+let apiRequestBody: any;
+let createApiEndpoint: string;
+let getApiEndpoint: string;
+let gistID: string;
 
-Given ('I create a Gist to get gist id from the response', () => {
+Given ('I create a Gist to get gist id from the response and contruct the API endpoint', () => {
     createApiEndpoint = BASE_URL + '/gists';
-    cy.readFile('cypress/' + 'fixtures/api_data/create_gist/positive_payloads/CreatePublicGist.json').then((apiRequestBody) => {
-        cy.request({
-            method:'POST',
-            url:createApiEndpoint,
-            body:apiRequestBody,
-            failOnStatusCode: false,
-            headers: {
-                'Authorization' : 'Bearer ' + BEARER_TOKEN
-            }
-        }).then( (response) => {
-            apiResponse = response;
-            gistID = response.body.id;
-            cy.log('gist ID is' + gistID);
-        });
+    apiRequestBody = 'api_data/create_gist/positive_payloads/CreatePublicGist.json'
+    cy.apiRequestWithBodyFilePath('POST', createApiEndpoint, BEARER_TOKEN, apiRequestBody);
+
+    cy.get('@apiResponse').then((response) => {
+        const res = response as unknown as Cypress.Response<any>;
+        gistID = res.body.id;
+        getApiEndpoint = BASE_URL + '/gists/' + gistID;
     }); 
 });
 
-Given ('the API endpoint for get Gist', () => {
-    getApiEndpoint = BASE_URL + '/gists/' + gistID;
+When ('I send GET request using above constructed endpoint', () => {
+    cy.apiRequest('GET', getApiEndpoint, BEARER_TOKEN);
 });
 
-When ('I send GET request with valid gistId in the endpoint', () => {
-    cy.request({
-        method:'GET',
-        url:getApiEndpoint,
-        failOnStatusCode: false,
-        headers: {
-            'Authorization' : 'Bearer ' + BEARER_TOKEN
-        }
-    }).then( (response) => {
-        apiResponse = response;      
-    });
+Given ('I construct endpoint with invalid gistID', () => {
+    getApiEndpoint = BASE_URL + '/gists/' + 'DummyGistID';
 });
 
-Then ('the response status should be 200', () => {
-    expect(apiResponse.status).to.eq(200);
-    expect(apiResponse.body).to.have.property('id');
-    expect(apiResponse.body).to.have.property('files');
+Given ('I construct invalid endpoint', () => {
+    createApiEndpoint = BASE_URL + '/gists';
+    apiRequestBody = 'api_data/create_gist/positive_payloads/CreatePublicGist.json'
+    cy.apiRequestWithBodyFilePath('POST', createApiEndpoint, BEARER_TOKEN, apiRequestBody);
+
+    cy.get('@apiResponse').then((response) => {
+        const res = response as unknown as Cypress.Response<any>;
+        gistID = res.body.id;
+        getApiEndpoint = BASE_URL + '/gist/' + gistID;
+    }); 
 });
+
