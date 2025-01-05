@@ -3,6 +3,7 @@ import { And, Given, Then } from 'cypress-cucumber-preprocessor/steps';
 import { GitHub_URL, GITHUB_USERNAME, GITHUB_PASSWORD } from '../../support/constants';
 import CommonPOM from '../pageObjects/CommonPOM';
 import NewGistPage from '../pageObjects/CreateGistUIPOM';
+import { faker } from '@faker-js/faker';
 
 Given ('the user logs in to the GitHub Page', () => {
     cy.visit(GitHub_URL);
@@ -35,4 +36,16 @@ Then ('user clicks on dropdown option beside create secret gist', () => {
 
 Then ('user clicks on create {string} gist option', () => {
     cy.get(NewGistPage.gistViewSubmit).click();
+});
+
+Then ('user adds multiple files and contents by clicking on add file option', () => {
+    Cypress._.times(2, () => {
+        cy.get(NewGistPage.gistAddFile).click();
+    });
+    Cypress._.times(3, (index: number) => {
+        const randomFileName = `${faker.system.fileName()}-${Date.now()}`;
+        const randomContent = faker.lorem.sentence();
+        cy.get(NewGistPage.gistFilenameField).eq(index).type(randomFileName);
+        cy.get(NewGistPage.gistContentFeild).eq(index).type(randomContent);
+    });
 });

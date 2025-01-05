@@ -9,6 +9,7 @@ const NewGistPage = {
   gistviewtypeoptions: 'summary[aria-label="Select a type of Gist"]',
   gistPublic: 'label[class="select-menu-item"]',
   gistViewSubmit: 'button.hx_create-pr-button.js-sync-select-menu-button.btn-primary.btn.BtnGroup-item',
+  gistAddFile: 'button.js-add-gist-file.btn.float-left',
    
   };
   
