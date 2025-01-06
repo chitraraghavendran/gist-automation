@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "cypress:run:all": "rm -rf cypress/reports && npx cypress run && npx mochawesome-merge cypress/reports/*.json -o cypress/reports/merged-report.json && npx marge cypress/reports/merged-report.json -o cypress/reports",
     "cypress:run": "npx cypress run",
     "report:merge": "npx mochawesome-merge cypress/reports/*.json -o cypress/reports/merged-report.json",
     "report:generate": "npx marge cypress/reports/merged-report.json -o cypress/reports",
