@@ -50,6 +50,7 @@ Then ('the response should have the property {string}', (property) => {
       });
 });
 
+
 // Validate nested response property value (Type Assertion Added)
 Then('the response should contain property {string} and it should equal to {string}', (property: string, value: string) => {
     cy.get('@apiResponse').then((response) => {
