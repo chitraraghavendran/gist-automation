@@ -1,0 +1,56 @@
+name: Cypress Tests with Cucumber
+
+on: 
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Secrets (Debugging Only)
+        run: |
+          echo "UI_USERNAME: ${{ secrets.UI_USERNAME }}"
+          echo "API_BEARER_TOKEN: ${{ secrets.API_BEARER_TOKEN }}"
+      
+      # ✅ Checkout the repository code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # ✅ Set up Node.js for the environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+
+      # ✅ Install project dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # ✅ Run Cypress tests with Cucumber and pass secrets
+      - name: Run Cypress with Cucumber
+        run: npx cypress run
+        env:
+          UI_USERNAME: ${{ secrets.UI_USERNAME }}
+          UI_PASSWORD: ${{ secrets.UI_PASSWORD }}
+          API_BEARER_TOKEN: ${{ secrets.API_BEARER_TOKEN }}
+
+      # ✅ Generate Mochawesome Report (if using Mochawesome)
+      - name: Generate Test Reports
+        run: |
+          npx mochawesome-merge cypress/reports/*.json -o cypress/reports/merged-report.json
+          npx marge cypress/reports/merged-report.json -o cypress/reports
+
+      # ✅ Upload Test Reports as an Artifact for review
+      - name: Upload Test Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-test-reports
+          path: cypress/reports

@@ -35,7 +35,6 @@ Cypress.Commands.add('apiRequest', (method: string, endpoint: string, token: str
   }
 });
 
-
 function makeAPICall(method: string, endpoint: string, token: string, requestBody?: string){
   cy.request({
     method,
