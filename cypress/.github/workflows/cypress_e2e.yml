@@ -15,11 +15,6 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
-      - name: Log Secrets (Debugging Only)
-        run: |
-          echo "UI_USERNAME: ${{ secrets.UI_USERNAME }}"
-          echo "API_BEARER_TOKEN: ${{ secrets.API_BEARER_TOKEN }}"
-      
       # ✅ Checkout the repository code
       - name: Checkout Code
         uses: actions/checkout@v4
