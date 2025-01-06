@@ -6,10 +6,12 @@ Scenario Outline: Positive usecase - creating a public Gist via POST request
   Then the response status code should be 201
   And the response should have public as "<publicViewType>"
   And the response should match the defined schema "api_data/create_gist/ResponseSchema.json"
+  Then the created gist is deleted at the end
   Examples:
-   |                            requestBodyFilePath                                   | publicViewType |
+   |                            requestBodyFilePath                          | publicViewType |
    |    api_data/create_gist/positive_payloads/CreatePublicGist.json         | true           |
    |    api_data/create_gist/positive_payloads/CreateSecretGist.json         | false          |
+   |    api_data/create_gist/positive_payloads/HugeFileName.json             | true           |
 
 
 Scenario Outline: Negative testcase - creating Gist with multiple invalid tokens

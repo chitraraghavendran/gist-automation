@@ -10,12 +10,12 @@ let gistID: string;
 Given ('I create a Gist to get gist id from the response and contruct the API endpoint', () => {
     createApiEndpoint = BASE_URL + '/gists';
     apiRequestBody = 'api_data/create_gist/positive_payloads/CreatePublicGist.json'
-    cy.apiRequestWithBodyFilePath('POST', createApiEndpoint, BEARER_TOKEN, apiRequestBody);
-
+    cy.apiRequest('POST', createApiEndpoint, BEARER_TOKEN, apiRequestBody);
     cy.get('@apiResponse').then((response) => {
         const res = response as unknown as Cypress.Response<any>;
         gistID = res.body.id;
         getApiEndpoint = BASE_URL + '/gists/' + gistID;
+        cy.wrap('gistID').as('gistsID');
     }); 
 });
 
@@ -30,12 +30,12 @@ Given ('I construct endpoint with invalid gistID', () => {
 Given ('I construct invalid endpoint', () => {
     createApiEndpoint = BASE_URL + '/gists';
     apiRequestBody = 'api_data/create_gist/positive_payloads/CreatePublicGist.json'
-    cy.apiRequestWithBodyFilePath('POST', createApiEndpoint, BEARER_TOKEN, apiRequestBody);
-
+    cy.apiRequest('POST', createApiEndpoint, BEARER_TOKEN, apiRequestBody);
     cy.get('@apiResponse').then((response) => {
         const res = response as unknown as Cypress.Response<any>;
         gistID = res.body.id;
         getApiEndpoint = BASE_URL + '/gist/' + gistID;
+        cy.wrap('gistID').as('gistsID');
     }); 
 });
 

@@ -6,5 +6,6 @@ Scenario: Get list of gists that have public public
   Then the response status code should be 200
 
 Scenario: Delete a public gist using current user AuthToken
-   When I send DELETE request with current users AuthToken
-   Then the response status code should be 403
+  Given the API endpoint to delete a Gist
+  When I send DELETE request with current users AuthToken
+  Then the response status code should be 403

@@ -19,51 +19,32 @@ declare global {
        * Custom command to select DOM element by data-cy attribute.
        * @example cy.dataCy('greeting')
        */
-      apiRequestWithBodyFilePath(method: string, endpoint: string, token: string, bodyFilePath: string):Chainable<Response<any>>;
-      apiRequest(method: string, endpoint: string, token: string):Chainable<Response<any>>;
-      apiRequestWithoutToken(method: string, endpoint: string):Chainable<Response<any>>;
+      apiRequest(method: string, endpoint: string, token?: string, bodyFilePath?: string):Chainable<Response<any>>;
   }
 }
 }
 
-//Custom method definition for apiRequestWithFailOnStatusCode
-Cypress.Commands.add('apiRequestWithBodyFilePath', (method: string, endpoint: string, token: string, bodyFilePath: string) => {
-  cy.fixture(bodyFilePath).then((requestBody) => {
-    cy.request({
-      method,
-      url: endpoint,
-      body: requestBody,
-      failOnStatusCode: false,
-      headers: {
-          'Authorization': 'Bearer ' + token
-      }
-    }).then((response) => {
-          cy.wrap(response).as('apiResponse');
-    });
-  });
-});
-   
 //Custom method definition for apiRequest
-Cypress.Commands.add('apiRequest', (method: string, endpoint: string, token: string) => {
-  cy.request({
-    method,
-    url:endpoint,
-    failOnStatusCode: false,
-    headers: {
-        'Authorization' : 'Bearer ' + token
-    }
-   }).then( (response) => {
-    cy.wrap(response).as('apiResponse');
-  });
+Cypress.Commands.add('apiRequest', (method: string, endpoint: string, token: string, bodyFilePath: string) => {
+  if(bodyFilePath){
+    cy.fixture(bodyFilePath).then((requestBody) => {
+      makeAPICall(method, endpoint, token, requestBody);
+    });
+  }else{
+    makeAPICall(method, endpoint, token);
+  }
 });
 
-//Custom method definition for apiRequestWithoutToken
-Cypress.Commands.add('apiRequestWithoutToken', (method: string, endpoint: string) => {
+
+function makeAPICall(method: string, endpoint: string, token: string, requestBody?: string){
   cy.request({
     method,
-    url:endpoint,
+    url: endpoint,
+    body: requestBody ? requestBody : undefined,
     failOnStatusCode: false,
-   }).then( (response) => {
-    cy.wrap(response).as('apiResponse');
+    headers: token ? {'Authorization': 'Bearer ' + token} : undefined
+  }).then((response) => {
+        cy.wrap(response).as('apiResponse');
   });
-});
+}
+

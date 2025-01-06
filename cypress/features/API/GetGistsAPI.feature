@@ -6,7 +6,8 @@ When I send GET request using above constructed endpoint
 Then the response status code should be 200
 Then the response should have the property "files"
 Then the response should have the property "owner.login"
-Then the response should contain property "owner.login" and it should equal to "chitraraghavendran"
+And the response should match the defined schema "api_data/get_gist/GETAPIResponseSchema.json"
+Then the created gist is deleted at the end
 
 Scenario: Negetive usecase - Get a specified gist with invalid gistID
 Given I construct endpoint with invalid gistID

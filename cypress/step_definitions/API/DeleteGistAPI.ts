@@ -11,13 +11,16 @@ Given ('the API endpoint for get all public Gists', () => {
 });
 
 When ('I send GET request without any token', () => {
-    cy.apiRequestWithoutToken('GET', getGistsAPIEndpoint);
+    cy.apiRequest('GET', getGistsAPIEndpoint);
     cy.get('@apiResponse').then((response) => {
         const res = response as unknown as Cypress.Response<any>;
         gistsID = res.body[0].id;
-        deleteGistsAPIEndpoint = BASE_URL + '/gists/' + gistsID;
         cy.log('gistID is ' + gistsID);
     }); 
+});
+
+Given('the API endpoint to delete a Gist', () => {
+    deleteGistsAPIEndpoint = BASE_URL + '/gists/' + gistsID;
 });
 
 When ('I send DELETE request with current users AuthToken', () => {

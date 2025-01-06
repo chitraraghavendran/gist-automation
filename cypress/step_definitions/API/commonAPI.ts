@@ -3,9 +3,11 @@ import { And, Then } from 'cypress-cucumber-preprocessor/steps';
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 import _ from 'lodash';  // Import Lodash for nested validation
+import { BASE_URL, BEARER_TOKEN } from '../../support/constants';
 
 const ajv = new Ajv();
 addFormats(ajv); // Adding standard formats like "uri", "email", etc.
+let deleteGistsAPIEndpoint: string;
 
 Then ('the response status code should be {int}', statusCode => {
     cy.get('@apiResponse').then(apiRes => {
@@ -62,3 +64,10 @@ Then('the response should contain property {string} and it should equal to {stri
       expect(actualValue?.toString()).to.eq(value);
     });
   });
+
+  Then ('the created gist is deleted at the end', () => { 
+    cy.get('@gistsID').then((gistID) => {
+        deleteGistsAPIEndpoint = BASE_URL + '/gists/' + gistID;
+        cy.apiRequest('DELETE', deleteGistsAPIEndpoint, BEARER_TOKEN);
+    })
+});
