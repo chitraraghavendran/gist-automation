@@ -10,10 +10,11 @@ Given ('the user logs in to the GitHub Page', () => {
     cy.get(CommonPOM.gitHublogin).type(GITHUB_USERNAME);
     cy.get(CommonPOM.gitHubPassword).type(GITHUB_PASSWORD);
     cy.get(CommonPOM.gitHubSignin).click();
+    cy.wait(5000);
 });
 
 Then ('user clicks on the New gist option from plus symbol', () => {
-    cy.get(CommonPOM.gitHubGobalCreateMenu).click();
+    cy.get(CommonPOM.gitHubGobalCreateMenu, { timeout: 10000 }).click();
     cy.contains('span',NewGistPage.gitHubNewGist).should('be.visible').click();
 });
 
