@@ -7,6 +7,7 @@ let gistID: any;
 
 Given ('the API endpoint for create Gist', () => {
     apiEndpoint = BASE_URL + '/gists';
+    cy.log('API Bearer Token Is '+ BEARER_TOKEN);
 });
 
 When('I send POST request with request payload as {string}', requestBodyFilePath => {

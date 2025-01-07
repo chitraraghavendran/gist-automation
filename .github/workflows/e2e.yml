@@ -18,6 +18,7 @@ jobs:
         run: |
           echo "UI_USERNAME: ${{ secrets.UI_USERNAME }}"
           echo "API_BEARER_TOKEN: ${{ secrets.API_BEARER_TOKEN }}"
+          echo "API_BEARER_TOKEN is set: ${{ secrets.API_BEARER_TOKEN != '' }}"
 
       # ✅ Checkout the repository code
       - name: Checkout Code
