@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { And, Given, Then } from 'cypress-cucumber-preprocessor/steps';
-import { GitHub_URL, GITHUB_USERNAME, GITHUB_PASSWORD } from '../../support/constants';
+import { And, Before, Given, Then } from 'cypress-cucumber-preprocessor/steps';
+import { GitHub_URL, GITHUB_USERNAME, GITHUB_PASSWORD, BEARER_TOKEN } from '../../support/constants';
 import CommonPOM from '../pageObjects/CommonPOM';
 import NewGistPage from '../pageObjects/CreateGistUIPOM';
 import { faker } from '@faker-js/faker';
