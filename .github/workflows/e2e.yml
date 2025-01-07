@@ -14,6 +14,11 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
+      - name: Log Secrets (Debugging Only)
+        run: |
+          echo "UI_USERNAME: ${{ secrets.UI_USERNAME }}"
+          echo "API_BEARER_TOKEN: ${{ secrets.API_BEARER_TOKEN }}"
+
       # ✅ Checkout the repository code
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -39,8 +44,8 @@ jobs:
       # ✅ Generate Mochawesome Report (if using Mochawesome)
       - name: Generate Test Reports
         run: |
-          npm run report:merge
-          npm run report:generate
+          npx mochawesome-merge cypress/reports/*.json -o cypress/reports/merged-report.json
+          npx marge cypress/reports/merged-report.json -o cypress/reports
 
       # ✅ Upload Test Reports as an Artifact for review
       - name: Upload Test Reports
