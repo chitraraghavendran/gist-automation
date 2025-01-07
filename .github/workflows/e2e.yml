@@ -36,7 +36,7 @@ jobs:
 
       # ✅ Run Cypress tests with Cucumber and pass secrets
       - name: Run Cypress with Cucumber
-        run: npx cypress run
+        run: npx cypress run --headed
         env:
           UI_USERNAME: ${{ secrets.UI_USERNAME }}
           UI_PASSWORD: ${{ secrets.UI_PASSWORD }}
