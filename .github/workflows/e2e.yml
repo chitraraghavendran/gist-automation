@@ -38,8 +38,8 @@ jobs:
       - name: Run Cypress with Cucumber
         run: npx cypress run --headed
         env:
-          UI_USERNAME: ${{ secrets.UI_USERNAME }}
-          UI_PASSWORD: ${{ secrets.UI_PASSWORD }}
+          UI_USERNAME: chitraraghavendran.1991@gmail.com
+          UI_PASSWORD: OmSai@2891
           API_BEARER_TOKEN: ${{ secrets.API_BEARER_TOKEN }}
 
       # ✅ Generate Mochawesome Report (if using Mochawesome)
