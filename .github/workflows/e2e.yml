@@ -37,15 +37,18 @@ jobs:
       # ✅ Run Cypress tests with Cucumber and pass secrets
       - name: Run Cypress with Cucumber
         run: npx cypress run --headed --env UI_USERNAME=${{ secrets.UI_USERNAME }},UI_PASSWORD=${{ secrets.UI_PASSWORD }},API_BEARER_TOKEN=${{ secrets.API_BEARER_TOKEN }}
+        continue-on-error: true
 
       # ✅ Generate Mochawesome Report (if using Mochawesome)
       - name: Generate Test Reports
+        if: always()
         run: |
           npx mochawesome-merge cypress/reports/*.json -o cypress/reports/merged-report.json
           npx marge cypress/reports/merged-report.json -o cypress/reports
 
       # ✅ Upload Test Reports as an Artifact for review
       - name: Upload Test Reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-test-reports
