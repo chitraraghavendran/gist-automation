@@ -6,8 +6,8 @@ let apiEndpoint: string ;
 let gistID: any;
 
 Given ('the API endpoint for create Gist', () => {
-    apiEndpoint = BASE_URL + '/' + BEARER_TOKEN + '/' + GITHUB_USERNAME + '/' + GITHUB_PASSWORD;
-    console.log('API Bearer Token Is '+BEARER_TOKEN);
+    apiEndpoint = BASE_URL + '/' + '/' + GITHUB_USERNAME;
+    console.log('API Bearer Token Is '+ GITHUB_USERNAME);
 });
 
 When('I send POST request with request payload as {string}', requestBodyFilePath => {

@@ -43,7 +43,7 @@ function makeAPICall(method: string, endpoint: string, token: string, requestBod
     failOnStatusCode: false,
     headers: token ? {'Authorization': 'Bearer ' + token} : undefined
   }).then((response) => {
-        cy.log('API Response is : ' + JSON.stringify(response.body));
+        console.log('API Response is : ' + JSON.stringify(response.body));
         cy.wrap(response).as('apiResponse');
   });
 }
