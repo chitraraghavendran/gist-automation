@@ -36,7 +36,7 @@ jobs:
 
       # ✅ Run Cypress tests with Cucumber and pass secrets
       - name: Run Cypress with Cucumber
-        run: npx cypress run --headed --env UI_USERNAME=chitraraghavendran.1991@gmail.com,UI_PASSWORD=OmSai@2891,API_BEARER_TOKEN=${{ secrets.API_BEARER_TOKEN }}
+        run: npx cypress run --headed --env UI_USERNAME=chitraraghavendran.1991@gmail.com,UI_PASSWORD=OmSai2891,API_BEARER_TOKEN=${{ secrets.API_BEARER_TOKEN }}
         continue-on-error: true
 
       # ✅ Generate Mochawesome Report (if using Mochawesome)
