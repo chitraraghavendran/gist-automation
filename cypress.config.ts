@@ -14,7 +14,9 @@ export const config: Cypress.ConfigOptions = {
     reportDir: 'cypress/reports',
   },
   screenshotsFolder: 'cypress/screenshots',
-  video: false,
+  video: true, // Enable video recording
+  videoCompression: 32, // Reduce video size (1-100, 32 is default)
+  videosFolder: 'cypress/videos', // Default path for videos
   e2e: {
     responseTimeout: 30000, // Waits up to 3 seconds for a response from API requests
     defaultCommandTimeout: 40000, // General timeout for all Cypress commands
