@@ -53,3 +53,8 @@ jobs:
         with:
           name: cypress-test-reports
           path: cypress/reports
+
+      # ✅ Force Fail Workflow if Tests Failed
+      - name: Fail the workflow if tests failed
+        if: failure()
+        run: exit 1

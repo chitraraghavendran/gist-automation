@@ -14,7 +14,7 @@ Given ('the user logs in to the GitHub Page', () => {
 });
 
 Then ('user clicks on the New gist option from plus symbol', () => {
-    cy.get(CommonPOM.gitHubGobalCreateMenu, { timeout: 10000 }).click();
+    cy.get(CommonPOM.gitHubGobalCreateMenu).should('be.visible').click();
     cy.contains('span',NewGistPage.gitHubNewGist).should('be.visible').click();
 });
 
