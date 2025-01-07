@@ -9,6 +9,7 @@ Given ('the user logs in to the GitHub Page', () => {
     cy.visit(GitHub_URL);
     cy.get(CommonPOM.gitHublogin).type(GITHUB_USERNAME);
     cy.get(CommonPOM.gitHubPassword).type(GITHUB_PASSWORD);
+    cy.wait(5000);
     cy.get(CommonPOM.gitHubSignin).click();
     cy.wait(5000);
 });

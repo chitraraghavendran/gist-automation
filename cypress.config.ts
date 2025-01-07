@@ -19,7 +19,7 @@ export const config: Cypress.ConfigOptions = {
   videosFolder: 'cypress/videos', // Default path for videos
   e2e: {
     responseTimeout: 30000, // Waits up to 3 seconds for a response from API requests
-    defaultCommandTimeout: 40000, // General timeout for all Cypress commands
+    //defaultCommandTimeout: 40000, // General timeout for all Cypress commands
     setupNodeEvents(on, conf) {
       // eslint-disable-next-line global-require, import/extensions, @typescript-eslint/no-var-requires
       return require('./cypress/plugins/index.js')(on, conf);
