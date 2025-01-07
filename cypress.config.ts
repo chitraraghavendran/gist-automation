@@ -16,7 +16,7 @@ export const config: Cypress.ConfigOptions = {
   screenshotsFolder: 'cypress/screenshots',
   video: false,
   e2e: {
-    responseTimeout: 100, // Waits up to 3 seconds for a response from API requests
+    responseTimeout: 3000, // Waits up to 3 seconds for a response from API requests
     defaultCommandTimeout: 4000, // General timeout for all Cypress commands
     setupNodeEvents(on, conf) {
       // eslint-disable-next-line global-require, import/extensions, @typescript-eslint/no-var-requires
